@@ -8,13 +8,13 @@
 
     public function getUserRooms(string $user) {
       return array_filter($this->data, function($room) use($user) {
-        return ($room['email'] == $user);
+        return ($room['email'] === $user);
       });
     }
 
     public function getRoomById(string $id) {
       return array_filter($this->data, function($room) use($id) {
-        return ($room['room'] == $id);
+        return ($room['room'] === $id);
       });
     }
 

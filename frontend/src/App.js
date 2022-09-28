@@ -3,7 +3,11 @@ import "./App.css";
 
 function App() {
   React.useEffect(() => {
-    fetch("/api")
+    fetch("/api/auth", {
+      method: "POST",
+    
+      body: JSON.stringify({ user: "bl@wamoco.de", name: 'User' }),
+    })
       .then((response) => response.json())
       .then((data) => console.log(data));
   }, []);
