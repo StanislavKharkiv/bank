@@ -1,0 +1,66 @@
+[
+    {
+        "room": "R800009",
+        "type": "Gold",
+        "Product": "100g Goldbarren Barren",
+        "qty": 1,
+        "price": 5410.0000,
+        "email": "bl@wamoco.de"
+    },
+    {
+        "room": "D300380",
+        "type": "Silber",
+        "Product": "BRD 5 D-Mark 1964 Johann Gottlieb Fichte",
+        "qty": 2,
+        "price": 4.0556,
+        "email": "bl@wamoco.de"
+    },
+    {
+        "room": "R800009",
+        "type": "Silber",
+        "Product": "1 oz Silberbarren",
+        "qty": 4,
+        "price": 18.0196,
+        "email": "bl@wamoco.de"
+    },
+    {
+        "room": "R800009",
+        "type": "Platin",
+        "Product": "10 g Platinbarren",
+        "qty": 5,
+        "price": 270.9115,
+        "email": "bl@wamoco.de"
+    },
+    {
+        "room": "R800239",
+        "type": "Gold",
+        "Product": "100g Goldbarren Barren",
+        "qty": 1,
+        "price": 5410.0000,
+        "email": "df@wamoco.de"
+    },
+    {
+        "room": "x900122",
+        "type": "Silber",
+        "Product": "1 oz Silberbarren",
+        "qty": 11,
+        "price": 18.0196,
+        "email": "df@wamoco.de"
+    },
+    {
+        "room": "D905129",
+        "type": "Platin",
+        "Product": "10 g Platinbarren",
+        "qty": 10,
+        "price": 270.9115,
+        "email": "nr@wamoco.de"
+    },
+    {
+        "room": "R800009",
+        "type": "Gold",
+        "Product": "Goldmünze",
+        "qty": 1,
+        "price": 1710.6790,
+        "email": "bl@wamoco.de"
+    }
+]
