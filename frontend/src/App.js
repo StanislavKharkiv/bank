@@ -1,21 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { routes } from "./routes";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Rooms from "./pages/Rooms";
+import { Loader } from "./components/Loader";
+import { api } from "./api";
 import "./App.css";
 
+
 function App() {
-  React.useEffect(() => {
-    fetch("/api/auth", {
-      method: "POST",
-    
-      body: JSON.stringify({ user: "bl@wamoco.de", name: 'User' }),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data));
+  const [currentUser, setCurrentUser] = useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(api.auth)
+      .then((resp) => resp.json())
+      .then((data) => {
+        console.log(data);
+        if (data.user) {
+          setCurrentUser(data.user);
+        }
+        setLoading(false);
+      });
   }, []);
 
+  if (loading) return <Loader />
+
   return (
-    <div className="App">
-      <header className="App-header">start</header>
-    </div>
+    <BrowserRouter>
+      {currentUser ? (
+        <Routes>
+          <Route path={routes.home} element={<Home user={currentUser} />} />
+          <Route path={routes.rooms} element={<Rooms user={currentUser} setUser={setCurrentUser} />} />
+          <Route path={routes.room('id')} element={<div>room id</div>} />
+          <Route path="*" element={ <Navigate to={routes.rooms} />}  />
+        </Routes>
+      ) : (
+        <Routes>
+          <Route path={routes.home} element={<Home user={currentUser} />} />
+          <Route path={routes.login} element={<Login setUser={setCurrentUser} />} />
+          <Route path="*" element={ <Navigate to={routes.login} />}  />
+        </Routes>
+      )}
+    </BrowserRouter>
   );
 }
 

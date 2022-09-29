@@ -1,0 +1,11 @@
+.row {
+  cursor: pointer;
+}
+.row:hover {
+  background-color: gainsboro;
+}
+
+div .total {
+  text-align: right;
+  margin: 10px 0;
+}
