@@ -1,13 +1,13 @@
 import { Container } from "@mui/material";
 import { Header } from "../components/Header";
-import { Rooms as RoomsTable } from "../components/Rooms";
+import { RoomDetail as RoomDetailTable} from "../components/RoomDetail/RoomDetail";
 
-export default function Rooms({ user, setUser }) {
+export default function RoomDetail({ user, setUser }) {
   return (
     <>
       <Header user={user} setUser={setUser} />
       <Container maxWidth="md">
-        <RoomsTable />
+        <RoomDetailTable />
       </Container>
     </>
   );

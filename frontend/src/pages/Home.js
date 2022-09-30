@@ -4,7 +4,7 @@ import { routes } from "../routes";
 
 export default function Home({ user }) {
   return (
-    <Container maxWidth="sm" sx={{ height: "100vh", display: "flex" }}>
+    <Container maxWidth="md" sx={{ height: "100vh", display: "flex" }}>
       <Paper sx={{ padding: 10, margin: "auto" }} elevation={6}>
         <Typography variant="h5" align="center" gutterBottom>
           Super Bank

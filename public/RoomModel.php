@@ -21,4 +21,10 @@
     public function getAllRooms() {
       return $this->data;
     }
+
+    public function getUserEmail(string $email) {
+      return array_filter($this->data, function($item) use($email) {
+        return ($item['email'] === $email);
+      });
+    }
   }

@@ -12,7 +12,7 @@ import { api } from "../../api";
 import styles from "./Rooms.module.css";
 import { routes } from "../../routes";
 
-export function Rooms({ user, setUser }) {
+export function Rooms() {
   const navigate = useNavigate();
   const [roomsData, setRoomsData] = useState();
 
@@ -35,7 +35,7 @@ export function Rooms({ user, setUser }) {
   console.log(roomsData);
   return (
     <>
-      <Table sx={{ minWidth: 500 }} aria-label="simple table">
+      <Table sx={{ minWidth: 300 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Room</TableCell>

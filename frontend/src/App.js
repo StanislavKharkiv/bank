@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { routes } from "./routes";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Rooms from "./pages/Rooms";
+import RoomDetail from "./pages/RoomDetail";
+import { routes } from "./routes";
 import { Loader } from "./components/Loader";
 import { api } from "./api";
 import "./App.css";
@@ -33,7 +34,7 @@ function App() {
         <Routes>
           <Route path={routes.home} element={<Home user={currentUser} />} />
           <Route path={routes.rooms} element={<Rooms user={currentUser} setUser={setCurrentUser} />} />
-          <Route path={routes.room('id')} element={<div>room id</div>} />
+          <Route path={routes.room('id')} element={<RoomDetail />} />
           <Route path="*" element={ <Navigate to={routes.rooms} />}  />
         </Routes>
       ) : (

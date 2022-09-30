@@ -29,7 +29,7 @@ export default function Login({setUser}) {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="md">
       <Grid
         container
         direction="row"

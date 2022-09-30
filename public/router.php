@@ -14,6 +14,8 @@ $baseUrl = '/api';
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
+session_start();
+
 if (isset($_SESSION['current_user'])) {
   switch ($url['path']) {
 
@@ -51,9 +53,22 @@ if (isset($_SESSION['current_user'])) {
     $postData = json_decode(file_get_contents("php://input"), true);
 
     if (isset($postData['user'])) {
-      $_SESSION['current_user'] = $postData['user'];
-      http_response_code(200);
-      echo json_encode(["user" => $postData['user']]);
+      $userEmail = filter_var($postData['user'], FILTER_VALIDATE_EMAIL);
+      if (!$userEmail) {
+        http_response_code(400);
+        echo json_encode(["error" => "wrong email"]);
+        exit();
+      }
+
+      $isExistEmail = in_array($userEmail, array_column($array_json, 'email'));
+      if ($userEmail && $isExistEmail) {
+        $_SESSION['current_user'] = $userEmail;
+        http_response_code(200);
+        echo json_encode(["user" => $userEmail]);
+      } else {
+        http_response_code(400);
+        echo json_encode(["error" => "user with this email does not exist"]);
+      }   
     } else {
       http_response_code(400);
       echo json_encode(["error" => "missing user email"]);
