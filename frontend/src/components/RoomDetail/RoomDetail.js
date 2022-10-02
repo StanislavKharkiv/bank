@@ -4,10 +4,12 @@ import {
   TableCell,
   TableBody,
   TableRow,
+  Typography,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../../api";
+import { routes } from "../../routes";
 import styles from "./RoomDetail.module.css";
 
 export function RoomDetail() {
@@ -28,10 +30,18 @@ export function RoomDetail() {
     );
   }, [roomData]);
 
-  console.log(roomData);
   return (
     <>
-      <h2>room id</h2>
+      <div className={styles.header}>
+        <Link className={styles.back} to={routes.rooms}>
+          <span className={styles.arrow}>&#x2196;</span>
+          <span>back</span>
+        </Link>
+        <Typography variant="h6" component="h2">
+          Room: {roomId}
+        </Typography>
+      </div>
+      <hr />
       <Table sx={{ minWidth: 600 }} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -56,7 +66,20 @@ export function RoomDetail() {
           ))}
         </TableBody>
       </Table>
-      <div className={styles.total}>Total Worth: {totalWorth?.toFixed(4)}</div>
+      <div className={styles.total}>
+        <div className={styles.total__worth}>
+          Total Worth:
+          <span className={styles.total__price}>{totalWorth?.toFixed(4)}</span>
+        </div>
+        {roomData?.map(({ type, qty, price }) => (
+          <div key={type + price}>
+            {type}:
+            <span className={styles.total__price}>
+              {(qty * price).toFixed(4)}
+            </span>
+          </div>
+        ))}
+      </div>
     </>
   );
 }

@@ -20,19 +20,16 @@ export function Rooms() {
     fetch(api.rooms)
       .then((resp) => resp.json())
       .then((data) => {
-        setRoomsData(Object.values(data));
+        setRoomsData(Object.entries(data));
       });
   }, []);
 
   const totalWorth = useMemo(() => {
-    return roomsData?.reduce((total, current) => total + current.price, 0);
+    return roomsData?.reduce((total, current) => total + current[1], 0);
   }, [roomsData]);
 
-  const handleRowClick = (id) => {
-    navigate(routes.room(id))
-    console.log(routes.room(id))
-  };
-  console.log(roomsData);
+  const handleRowClick = (id) => navigate(routes.room(id));
+
   return (
     <>
       <Table sx={{ minWidth: 300 }} aria-label="simple table">
@@ -43,22 +40,22 @@ export function Rooms() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {roomsData?.map((row) => (
+          {roomsData?.map(([room, value]) => (
             <TableRow
-              key={row.room + row.Product}
+              key={room}
               className={styles.row}
-              onClick={() => handleRowClick(row.room)}
+              onClick={() => handleRowClick(room)}
             >
               <TableCell component="th" scope="row">
-                {row.room}
+                {room}
               </TableCell>
-              <TableCell align="right">{row.price}</TableCell>
+              <TableCell align="right">{value}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
       <Typography variant="subtitle2" className={styles.total}>
-        Total Worth: {totalWorth}
+        Total Worth: {totalWorth?.toFixed(4)}
       </Typography>
     </>
   );

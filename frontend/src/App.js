@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState, createContext } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -9,42 +9,51 @@ import { Loader } from "./components/Loader";
 import { api } from "./api";
 import "./App.css";
 
+export const AppContext = createContext();
 
 function App() {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState(false);
 
   useEffect(() => {
     fetch(api.auth)
       .then((resp) => resp.json())
       .then((data) => {
-        console.log(data);
         if (data.user) {
           setCurrentUser(data.user);
         }
         setLoading(false);
+      })
+      .catch((error) => {
+        setErr(true);
       });
   }, []);
 
-  if (loading) return <Loader />
+  if (loading) return <Loader error={err} />;
 
   return (
-    <BrowserRouter>
-      {currentUser ? (
-        <Routes>
-          <Route path={routes.home} element={<Home user={currentUser} />} />
-          <Route path={routes.rooms} element={<Rooms user={currentUser} setUser={setCurrentUser} />} />
-          <Route path={routes.room('id')} element={<RoomDetail />} />
-          <Route path="*" element={ <Navigate to={routes.rooms} />}  />
-        </Routes>
-      ) : (
-        <Routes>
-          <Route path={routes.home} element={<Home user={currentUser} />} />
-          <Route path={routes.login} element={<Login setUser={setCurrentUser} />} />
-          <Route path="*" element={ <Navigate to={routes.login} />}  />
-        </Routes>
-      )}
-    </BrowserRouter>
+    <AppContext.Provider value={{ currentUser, setCurrentUser }}>
+      <BrowserRouter>
+        {currentUser ? (
+          <Routes>
+            <Route path={routes.home} element={<Home user={currentUser} />} />
+            <Route path={routes.rooms} element={<Rooms />} />
+            <Route path={routes.room("id")} element={<RoomDetail />} />
+            <Route path="*" element={<Navigate to={routes.rooms} />} />
+          </Routes>
+        ) : (
+          <Routes>
+            <Route path={routes.home} element={<Home user={currentUser} />} />
+            <Route
+              path={routes.login}
+              element={<Login setUser={setCurrentUser} />}
+            />
+            <Route path="*" element={<Navigate to={routes.login} />} />
+          </Routes>
+        )}
+      </BrowserRouter>
+    </AppContext.Provider>
   );
 }
 

@@ -1,34 +1,30 @@
 <?php
-  class RoomController {
+  require_once 'Response.php';
+
+  class RoomController extends Response {
     protected object $data;
 
     public function __construct(object $data) {
       $this->data = $data;
     }
 
-    public function addHeaders() {
-      header("Access-Control-Allow-Origin: *");
-      header("Content-Type: application/json; charset=UTF-8");
-    }
-
-    public function sendError($error_text) {
-        header('HTTP/1.1 400 Bad Request');
-        http_response_code(400);
-        echo json_encode(["error" => $error_text]);
-    }
-
     public function getUserRooms(string $userEmail) {
-      $this->addHeaders();
-      echo json_encode($this->data->getUserRooms($userEmail));
+      $user_rooms = $this->data->getUserRooms($userEmail);
+      $rooms = array_reduce($user_rooms, function($total, $current) {
+        ['room' => $room, 'price' => $price, 'qty' => $qty] = $current;
+        $total[$room] = round(($total[$room] ?? 0) + $price * $qty, 4);
+        return $total;
+      }, []);
+      
+      echo json_encode($rooms);
     }
 
     public function getRoom($query) {
-      $this->addHeaders();
       parse_str($query, $params);
       if (isset($params['id'])) {
         echo json_encode($this->data->getRoomById($params['id']));
       } else {
-        $this->sendError('missing room id query parameter');
+        $this->resp400('missing room id query parameter');
       }
     }
 

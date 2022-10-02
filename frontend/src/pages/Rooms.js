@@ -2,10 +2,10 @@ import { Container } from "@mui/material";
 import { Header } from "../components/Header";
 import { Rooms as RoomsTable } from "../components/Rooms";
 
-export default function Rooms({ user, setUser }) {
+export default function Rooms() {
   return (
     <>
-      <Header user={user} setUser={setUser} />
+      <Header />
       <Container maxWidth="md">
         <RoomsTable />
       </Container>

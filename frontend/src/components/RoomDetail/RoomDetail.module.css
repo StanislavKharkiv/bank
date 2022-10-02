@@ -1,4 +1,36 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.back {
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+}
+.back:hover {
+  color: black;
+}
+
+.arrow {
+  display: inline-block;
+  font-size: 30px;
+  transform: rotate(-45deg);
+  margin-right: 10px;
+}
+
 .total {
   text-align: right;
-  margin: 10px 0;
+  margin-top: 40px;
+}
+
+.total__worth {
+  font-weight: bold;
+}
+
+.total__price {
+  display: inline-block;
+  min-width: 120px;
+  margin-bottom: 4px;
 }
