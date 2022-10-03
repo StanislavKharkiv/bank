@@ -7,7 +7,6 @@ import RoomDetail from "./pages/RoomDetail";
 import { routes } from "./routes";
 import { Loader } from "./components/Loader";
 import { api } from "./api";
-import "./App.css";
 
 export const AppContext = createContext();
 

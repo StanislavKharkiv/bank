@@ -42,30 +42,32 @@ export function RoomDetail() {
         </Typography>
       </div>
       <hr />
-      <Table sx={{ minWidth: 600 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Product</TableCell>
-            <TableCell align="center">Type</TableCell>
-            <TableCell align="center">Qty</TableCell>
-            <TableCell align="center">Price</TableCell>
-            <TableCell align="right">Total</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {roomData?.map((row) => (
-            <TableRow key={row.room + row.Product} className={styles.row}>
-              <TableCell component="th" scope="row">
-                {row.Product}
-              </TableCell>
-              <TableCell align="center">{row.type}</TableCell>
-              <TableCell align="center">{row.qty}</TableCell>
-              <TableCell align="center">{row.price}</TableCell>
-              <TableCell align="right">{row.price * row.qty}</TableCell>
+      <div className={styles.table_wrapper}>
+        <Table sx={{ minWidth: 600 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Product</TableCell>
+              <TableCell align="center">Type</TableCell>
+              <TableCell align="center">Qty</TableCell>
+              <TableCell align="center">Price</TableCell>
+              <TableCell align="right">Total</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {roomData?.map((row) => (
+              <TableRow key={row.room + row.Product} className={styles.row}>
+                <TableCell component="th" scope="row">
+                  {row.Product}
+                </TableCell>
+                <TableCell align="center">{row.type}</TableCell>
+                <TableCell align="center">{row.qty}</TableCell>
+                <TableCell align="center">{row.price}</TableCell>
+                <TableCell align="right">{row.price * row.qty}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
       <div className={styles.total}>
         <div className={styles.total__worth}>
           Total Worth:
