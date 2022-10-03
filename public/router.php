@@ -1,19 +1,24 @@
 <?php
-require_once 'RoomModel.php';
-require_once 'RoomController.php';
+require_once 'models/RoomModel.php';
+require_once 'models/UserModel.php';
+require_once 'controllers/RoomController.php';
+require_once 'controllers/UserController.php';
 require_once 'Response.php';
+require_once 'data/dataBase.php';
 
-$data_json = file_get_contents("data.json");
-$array_json = json_decode($data_json, true);
-$url = parse_url($_SERVER['REQUEST_URI']);
-
-$DB = new RoomModel($array_json);
-$rooms = new RoomController($DB);
 $response = new Response();
+$DB = getData();
+if (!$DB) $response->resp404();
+
+$roomsData = new RoomModel($DB);
+$userData = new UserModel($DB);
+$rooms = new RoomController($roomsData);
+$user = new UserController($userData);
 
 session_start();
 $response->addHeaders();
 
+$url = parse_url($_SERVER['REQUEST_URI']);
 $baseUrl = '/api';
 $isLogged = isset($_SESSION['current_user']);
 
@@ -28,43 +33,28 @@ if ($isLogged) {
       break;
 
     case "$baseUrl/auth":
-      if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-        unset($_SESSION['current_user']);
-      } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        $response->resp200(["user" => $_SESSION['current_user']]);
+      switch ($_SERVER['REQUEST_METHOD']) {
+        case 'DELETE': 
+          $user->logout();
+          break;
+        case 'GET': 
+          $user->getCurrentUser();
+          break;
+        default:
+          $response->resp404();
       }
       break;
       
     default:
       $response->resp404();
-      break;
   }
 } else {
-  $isLogin = $url['path'] === "$baseUrl/auth" && $_SERVER['REQUEST_METHOD'] === 'POST';
-
-  if (!$isLogin) {
-    $response->resp404();
-  }
-
-  $postData = json_decode(file_get_contents("php://input"), true);
-
-  if (isset($postData['user'])) {
-    $userEmail = filter_var($postData['user'], FILTER_VALIDATE_EMAIL);
-
-    if (!$userEmail) {
-      $response->resp400("wrong email");
-    }
-
-    $isExistEmail = in_array($userEmail, array_column($array_json, 'email'));
-
-    if ($userEmail && $isExistEmail) {
-      $_SESSION['current_user'] = $userEmail;
-      $response->resp200(["user" => $userEmail]);
-    } else {
-      $response->resp400("user with this email does not exist");
-    }   
-
-  } else {
-    $response->resp400("missing user email");
+  switch ($url['path']) {
+    case "$baseUrl/auth":
+      if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $user->login();
+      }
+    default:
+      $response->resp404();
   }
 }

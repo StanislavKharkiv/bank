@@ -27,8 +27,4 @@
         $this->resp400('missing room id query parameter');
       }
     }
-
-    public function getAllRooms() {
-      return $this->data;
-    }
   }
